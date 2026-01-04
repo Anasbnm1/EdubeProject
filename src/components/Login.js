@@ -19,7 +19,7 @@ function Login() {
         role: "student",
       });
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/student";
+      window.location.href = "/student/dashboard";
     } catch (err) {
       setError("Email ou mot de passe incorrect (Étudiant)");
     }
@@ -63,7 +63,7 @@ function Login() {
               required
             />
             <p className="register-text">
-              Don’t have an account? <Link to="/register">Register</Link>
+              Don’t have an account? <Link to="/registerstudent">Register</Link>
             </p>
             <button type="submit">Se connecter</button>
           </form>
@@ -88,7 +88,7 @@ function Login() {
               required
             />
             <p className="register-text">
-              Don’t have an account? <Link to="/register">Register</Link>
+              Don’t have an account? <Link to="/registerprofessor">Register</Link>
             </p>
             <button type="submit">Se connecter</button>
           </form>

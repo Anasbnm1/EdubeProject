@@ -7,8 +7,8 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-title">Edube</div>
       <ul className="navbar-links">
-        <li><Link to="/student">Étudiant</Link></li>
-        <li><Link to="/professor">Professeur</Link></li>
+        <li><Link to="/Actualité">Actualité</Link></li>
+        <li><Link to="/Event">Evénement</Link></li>
         <li><Link to="/login">Login</Link></li>
       </ul>
     </nav>
