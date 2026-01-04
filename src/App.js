@@ -7,6 +7,8 @@ import ProfessorDashboard from "./components/ProfessorDashboard";
 import Navbar from "./components/Navbar";
 import RegisterProfessor from "./components/RegisterProfessor";
 import RegisterStudent from "./components/RegisterStudent";
+import NotesEtudiant from "./pages/StudentPortal/NotesEtudiant";
+import PlanningStudent from "./pages/StudentPortal/PlanningStudent";
 
 function App() {
   return (
@@ -17,8 +19,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/registerstudent" element={<RegisterStudent />} />
         <Route path="/registerprofessor" element={<RegisterProfessor />} />
-        <Route path="/student/dashboard" element={<DashboardStudent />} />
-        <Route path="/professor" element={<ProfessorDashboard />} />
+          <Route path="/professor" element={<ProfessorDashboard />} />
+          <Route path="/student/dashboard" element={<DashboardStudent />} />
+          <Route path="/student/grades" element={<NotesEtudiant />} />
+          <Route path="/student/planningstudent" element={<PlanningStudent />} />
       </Routes>
     </Router>
   );

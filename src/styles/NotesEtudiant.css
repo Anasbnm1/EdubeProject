@@ -1,0 +1,46 @@
+.grades-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.grades-table th,
+.grades-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.grades-table th {
+    background: #0078d7;
+    color: white;
+    font-weight: 600;
+}
+
+.grades-table tr:hover {
+    background: #f4f8ff;
+}
+
+.grades-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.grades-summary p {
+    margin: 8px 0;
+    font-size: 15px;
+}

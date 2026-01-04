@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import StudentLayout from "./StudentLayout";
 import "../../styles/DashboardStudent.css";
 
 function DashboardStudent() {
     const [student, setStudent] = useState(null);
     const [courses, setCourses] = useState([]);
+    const [calendar, setCalendar] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -15,49 +17,63 @@ function DashboardStudent() {
             .then((res) => {
                 setStudent(res.data.user);
                 setCourses([
-                    { title: "Mathématiques", description: "Algèbre et analyse", progress: 70 },
-                    { title: "Informatique", description: "Programmation et structures", progress: 40 },
-                    { title: "Physique", description: "Mécanique et thermodynamique", progress: 55 },
+                    { title: "Base de donnée NoSQL", description: "Base de donnée non relationnel", icon: "🗄️" },
+                    { title: "Programmation Mobile", description: "Programmation Mobile Flutter", icon: "📱" },
+                    { title: "Intelligence Artificielle", description: "Machine Learning et Deep Learning", icon: "🤖" },
+                ]);
+
+                // Exemple de calendrier universitaire
+                setCalendar([
+                    { day: "Lundi", course: "Base de donnée NoSQL", time: "08h00 - 10h00", room: "Salle P205" },
+                    { day: "Mardi", course: "Programmation Mobile", time: "10h00 - 12h00", room: "Salle P306" },
+                    { day: "Mercredi", course: "Intelligence Artificielle", time: "14h00 - 16h00", room: "Salle P206" },
+                    { day: "Jeudi", course: "Programmation Mobile", time: "08h00 - 10h00", room: "Salle P305" },
+                    { day: "Vendredi", course: "Base de donnée NoSQL", time: "10h00 - 12h00", room: "Salle P205" },
                 ]);
             })
             .catch((err) => console.error(err));
     }, []);
 
-    if (!student) return <div className="loader">Chargement...</div>;
+    if (!student) return <p>Chargement...</p>;
 
     return (
-        <div className="dashboard-container">
-            <header className="dashboard-header">
-                <h2>Bienvenue {student.name} 👋</h2>
-                <p>Filière : {student.filiere}</p>
-                <button
-                    className="logout-btn"
-                    onClick={() => {
-                        localStorage.removeItem("token");
-                        window.location.href = "/login";
-                    }}
-                >
-                    Déconnexion
-                </button>
-            </header>
+        <StudentLayout>
+            <h2>Bienvenue {student.name} 👋</h2>
+            <p>Filière : {student.filiere}</p>
 
             <h3>📚 Vos cours</h3>
             <div className="courses-grid">
                 {courses.map((course, i) => (
                     <div key={i} className="course-card">
-                        <h4>{course.title}</h4>
+                        <h4>{course.icon} {course.title}</h4>
                         <p>{course.description}</p>
-                        <div className="progress-bar">
-                            <div
-                                className="progress"
-                                style={{ width: `${course.progress}%` }}
-                            ></div>
-                        </div>
                         <button>Voir détails</button>
                     </div>
                 ))}
             </div>
-        </div>
+
+            <h3>📅 Calendrier universitaire</h3>
+            <table className="calendar-table">
+                <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Cours</th>
+                    <th>Horaire</th>
+                    <th>Salle</th>
+                </tr>
+                </thead>
+                <tbody>
+                {calendar.map((item, i) => (
+                    <tr key={i}>
+                        <td>{item.day}</td>
+                        <td>{item.course}</td>
+                        <td>{item.time}</td>
+                        <td>{item.room}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </StudentLayout>
     );
 }
 

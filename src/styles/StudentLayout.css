@@ -1,0 +1,125 @@
+/* Layout global */
+.student-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f9f9f9;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #0078d7; /* bleu principal */
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s ease, padding-left 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    padding-left: 18px;
+}
+
+/* Contenu principal */
+.student-content {
+    flex: 1;
+    padding: 30px;
+}
+
+/* Titres */
+.student-content h2 {
+    color: #0078d7;
+    margin-bottom: 10px;
+}
+
+.student-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .student-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .student-content {
+        padding: 20px;
+    }
+}
+
+/* Dark mode */
+.student-layout.dark {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+.student-layout.dark .sidebar {
+    background: #222;
+}
+
+.student-layout.dark .sidebar a {
+    color: #e0e0e0;
+}
+
+.student-layout.dark .student-content h2 {
+    color: #74b9ff;
+}
+/* Bouton Déconnexion dans le sidebar */
+.logout-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: transparent; /* même fond que les liens */
+    color: #ff4d4d; /* rouge vif */
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: 100%;
+    text-align: left;
+    transition: background 0.3s ease, padding-left 0.3s ease;
+}
+
+/* Effet hover comme les autres liens */
+.logout-link:hover {
+    background: rgba(255, 77, 77, 0.2); /* rouge clair au hover */
+    padding-left: 18px;
+}
+
+
