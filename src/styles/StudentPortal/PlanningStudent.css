@@ -3,40 +3,47 @@
     margin: 30px auto;
     padding: 20px;
     font-family: "Segoe UI", sans-serif;
+    color: #e2e8f0;
 }
 
+/* TITRE */
 .emploi-container h2 {
-    color: #0078d7;
+    color: #38bdf8; /* bleu Edube */
     margin-bottom: 20px;
+    font-size: 26px;
 }
 
+/* TABLEAU */
 .emploi-table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
-    border-radius: 8px;
+    background-color: #1e293b; /* fond sombre */
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
 }
 
+/* CELLES */
 .emploi-table th,
 .emploi-table td {
     padding: 12px 15px;
     text-align: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #334155;
+    font-size: 14px;
 }
 
+/* ENTÊTE */
 .emploi-table th {
-    background: #0078d7;
-    color: white;
+    background-color: #2563eb; /* bleu principal */
+    color: #fff;
     font-weight: 600;
 }
 
+/* LIGNES */
 .emploi-table tr:hover {
-    background: #f4f8ff;
+    background-color: #0f172a; /* hover sombre bleu */
 }
 
 .emploi-table td {
-    font-size: 14px;
-    color: #333;
+    color: #e2e8f0; /* texte clair */
 }

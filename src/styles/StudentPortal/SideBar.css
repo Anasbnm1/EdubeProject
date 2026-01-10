@@ -1,37 +1,108 @@
+/* ===== SIDEBAR ===== */
 .sidebar {
     position: fixed;
-    top: 60px; /* aligne sous le navbar */
+    top: 60px; /* sous le navbar */
     left: -260px; /* caché par défaut */
-    width: 260px; height: calc(100vh - 60px);
-    background: linear-gradient(180deg, #1e293b, #0f172a);
-    color: #cbd5e1; padding: 16px 12px;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.4);
-    z-index: 950; transition: left 0.25s ease;
-    font-family: Segoe UI, sans-serif;
+    width: 260px;
+    height: calc(100vh - 60px);
+    background-color: #0f172a; /* bleu sombre profond */
+    color: #e2e8f0; /* texte clair */
+    box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+    border-right: 1px solid #1e3a8a; /* bord bleu foncé */
+    border-radius: 0 12px 12px 0;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
 }
 
-.sidebar.open { left: 0; }
+/* Quand la sidebar est ouverte */
+.sidebar.open {
+    left: 0;
+}
 
+/* ===== BOUTON FERME ===== */
 .close-btn {
-    font-size: 1.8rem; background: none; border: none; color: #fff; cursor: pointer;
-    margin-bottom: 12px;
+    background: none;
+    border: none;
+    color: #e2e8f0;
+    font-size: 28px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-right: 12px;
+    margin-bottom: 10px;
+    transition: color 0.2s ease;
 }
 
-.sidebar ul { list-style: none; padding: 0; margin: 0; }
-.sidebar li { margin: 6px 0; }
-
-.sidebar a, .logout-link {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 12px; border-radius: 8px;
-    color: #cbd5e1; text-decoration: none; font-size: 15px;
-    transition: all 0.2s ease;
+.close-btn:hover {
+    color: #38bdf8;
 }
 
-.sidebar a:hover { background: #2563eb; color: #fff; transform: translateX(4px); }
-.logout-link { background: none; border: none; cursor: pointer; }
-.logout-link:hover { background: #dc2626; color: #fff; }
+/* ===== LISTE DES LIENS ===== */
+.sidebar ul {
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
+    flex-grow: 1;
+}
 
+.sidebar ul li {
+    margin-bottom: 16px;
+}
+
+/* LIENS ET BOUTONS */
+.sidebar a,
+.sidebar .logout-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #e2e8f0; /* texte clair */
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a:hover,
+.sidebar .logout-link:hover {
+    background-color: #2563eb; /* bleu Edube */
+    color: #fff;
+}
+
+.sidebar .logout-link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-weight: 500;
+}
+
+/* TEXTE DES LIENS */
+.sidebar span {
+    flex-grow: 1;
+}
+
+/* RESPONSIVE – petits écrans */
 @media (max-width: 768px) {
-    .sidebar { width: 220px; left: -220px; }
-    .sidebar a span, .logout-link span { display: none; }
+    .sidebar {
+        width: 220px;
+        left: -220px;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .sidebar a,
+    .sidebar .logout-link {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .close-btn {
+        font-size: 24px;
+    }
 }

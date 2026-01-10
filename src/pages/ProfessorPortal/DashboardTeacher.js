@@ -40,7 +40,6 @@ function DashboardTeacher() {
         <TeacherLayout>
             <div className="teacher-dashboard">
                 <h2>Bienvenue Professeur {teacher.name} 👋</h2>
-                <p>Filière : {teacher.filiere}</p>
 
                 {/* Modules enseignés */}
                 <h3>📚 Vos modules</h3>
