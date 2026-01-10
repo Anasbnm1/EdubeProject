@@ -1,0 +1,78 @@
+.grades-teacher-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.grades-teacher-container h2 {
+    color: #0078d7;
+    margin-bottom: 20px;
+}
+
+/* Filtre */
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-section select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Tableau */
+.grades-teacher-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.grades-teacher-table th,
+.grades-teacher-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.grades-teacher-table th {
+    background: #0078d7;
+    color: white;
+    font-weight: 600;
+}
+
+.grades-teacher-table tr:hover {
+    background: #f4f8ff;
+}
+
+.grades-teacher-table input {
+    width: 60px;
+    padding: 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Bouton sauvegarde */
+.save-btn {
+    margin-top: 20px;
+    padding: 10px 16px;
+    background: #0078d7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.3s ease;
+}
+
+.save-btn:hover {
+    background: #005fa3;
+}

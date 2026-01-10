@@ -1,0 +1,62 @@
+.teacher-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.teacher-container h2 {
+    color: #0078d7;
+    margin-bottom: 20px;
+}
+
+/* Section filtre */
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-section label {
+    font-weight: 600;
+}
+
+.filter-section select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Tableau étudiants */
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.students-table th,
+.students-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.students-table th {
+    background: #0078d7;
+    color: white;
+    font-weight: 600;
+}
+
+.students-table tr:hover {
+    background: #f4f8ff;
+}
+
+.students-table td {
+    font-size: 14px;
+    color: #333;
+}

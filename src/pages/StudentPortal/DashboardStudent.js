@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StudentLayout from "./StudentLayout";
-import "../../styles/DashboardStudent.css";
+import "../../styles/StudentPortal/DashboardStudent.css";
 
 function DashboardStudent() {
     const [student, setStudent] = useState(null);
@@ -38,41 +38,43 @@ function DashboardStudent() {
 
     return (
         <StudentLayout>
-            <h2>Bienvenue {student.name} 👋</h2>
-            <p>Filière : {student.filiere}</p>
+            <div className="dashboard-content">
+                <h2>Bienvenue {student.name} 👋</h2>
+                <p>Filière : {student.filiere}</p>
 
-            <h3>📚 Vos cours</h3>
-            <div className="courses-grid">
-                {courses.map((course, i) => (
-                    <div key={i} className="course-card">
-                        <h4>{course.icon} {course.title}</h4>
-                        <p>{course.description}</p>
-                        <button>Voir détails</button>
-                    </div>
-                ))}
-            </div>
+                <h3>📚 Vos cours</h3>
+                <div className="courses-grid">
+                    {courses.map((course, i) => (
+                        <div key={i} className="course-card">
+                            <h4>{course.icon} {course.title}</h4>
+                            <p>{course.description}</p>
+                            <button>Voir détails</button>
+                        </div>
+                    ))}
+                </div>
 
-            <h3>📅 Calendrier universitaire</h3>
-            <table className="calendar-table">
-                <thead>
-                <tr>
-                    <th>Jour</th>
-                    <th>Cours</th>
-                    <th>Horaire</th>
-                    <th>Salle</th>
-                </tr>
-                </thead>
-                <tbody>
-                {calendar.map((item, i) => (
-                    <tr key={i}>
-                        <td>{item.day}</td>
-                        <td>{item.course}</td>
-                        <td>{item.time}</td>
-                        <td>{item.room}</td>
+                <h3>📅 Calendrier universitaire</h3>
+                <table className="calendar-table">
+                    <thead>
+                    <tr>
+                        <th>Jour</th>
+                        <th>Cours</th>
+                        <th>Horaire</th>
+                        <th>Salle</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {calendar.map((item, i) => (
+                        <tr key={i}>
+                            <td>{item.day}</td>
+                            <td>{item.course}</td>
+                            <td>{item.time}</td>
+                            <td>{item.room}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </StudentLayout>
     );
 }

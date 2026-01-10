@@ -1,0 +1,119 @@
+/* ===== GLOBAL DASHBOARD ===== */
+.courses-grid, .calendar-table {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* ===== GRID DES COURS ===== */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+/* ===== CARDS COURS ===== */
+.course-card {
+    background-color: #1e293b;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    border: 1px solid #334155;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 20px rgba(37,99,235,0.4);
+    border-color: #2563eb;
+}
+
+.course-card h4 {
+    font-size: 18px;
+    color: #38bdf8;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.course-card p {
+    font-size: 14px;
+    color: #94a3b8;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.course-card button {
+    align-self: flex-start;
+    padding: 8px 14px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.course-card button:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.03);
+}
+
+/* ===== CALENDRIER ===== */
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background-color: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+
+.calendar-table th,
+.calendar-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #334155;
+    font-size: 14px;
+}
+
+.calendar-table th {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-table td {
+    color: #e2e8f0;
+}
+
+.calendar-table tr:hover {
+    background-color: #0f172a;
+}
+
+/* ===== TITRES ===== */
+h2, h3 {
+    color: #38bdf8;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-card {
+        padding: 15px;
+    }
+
+    h2, h3 {
+        font-size: 18px;
+    }
+}

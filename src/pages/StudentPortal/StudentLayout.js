@@ -1,11 +1,11 @@
 import React from "react";
-import Sidebar from "./SideBar";
-import "../../styles/StudentLayout.css";
+import SideBarStudent from "./SideBarStudent";
+import "../../styles/StudentPortal/StudentLayout.css";
 
 function StudentLayout({ children }) {
     return (
         <div className="student-layout">
-            <Sidebar />
+            <SideBarStudent />
             <main className="student-content">{children}</main>
         </div>
     );

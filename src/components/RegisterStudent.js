@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../styles/RegisterStudent.css"; // le CSS qu'on va créer
+import "../styles/StudentPortal/RegisterStudent.css"; // le CSS qu'on va créer
 
 function RegisterStudent() {
   const [name, setName] = useState("");
@@ -60,9 +60,9 @@ function RegisterStudent() {
           <select value={filiere} onChange={(e) => setFiliere(e.target.value)} required>
             <option value="">-- Choisir une Filière --</option>
             <option value="Informatique">Génie Informatique</option>
-            <option value="Mathématiques">Génie Civil</option>
-            <option value="Physique">Génie Electrique</option>
-            <option value="Gestion">Génie Mécanique</option>
+            <option value="Civil">Génie Civil</option>
+            <option value="Electrique">Génie Electrique</option>
+            <option value="Mecanique">Génie Mécanique</option>
           </select>
 
           {/* Sélection Groupe */}

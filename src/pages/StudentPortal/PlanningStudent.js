@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/PlanningStudent.css";
+import "../../styles/StudentPortal/PlanningStudent.css";
 import StudentLayout from "./StudentLayout";
 
 function EmploiDuTemps() {

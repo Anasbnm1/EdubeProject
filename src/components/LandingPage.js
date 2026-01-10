@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "../styles/LandingPage.css";
 
 function LandingPage() {
@@ -20,7 +19,7 @@ function LandingPage() {
         <div className="card">
           <h2>Nouveau sur Edube ?</h2>
           <p>Créez un compte pour commencer votre parcours.</p>
-            <a href="/src/components/RegisterStudent" className="btn btn-secondary">S'inscrire</a>
+            <a href="/registerstudent" className="btn btn-secondary">S'inscrire</a>
         </div>
       </div>
     </div>

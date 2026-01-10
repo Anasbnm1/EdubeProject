@@ -34,7 +34,7 @@ function Login() {
         role: "professor",
       });
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/professor";
+      window.location.href = "/professor/dashboard";
     } catch (err) {
       setError("Email ou mot de passe incorrect (Professeur)");
     }

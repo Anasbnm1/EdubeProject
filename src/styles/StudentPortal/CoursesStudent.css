@@ -1,40 +1,48 @@
-/* Grille des cours */
+.courses-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.courses-container h2 {
+    color: #0078d7;
+    margin-bottom: 20px;
+}
+
+/* Grille responsive */
 .courses-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
-    margin-top: 20px;
 }
 
-/* Card de cours */
+/* Card */
 .course-card {
-    background: #ffffff;
+    background: #fff;
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* Effet hover */
 .course-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.15);
 }
 
-/* Titre du cours */
-.course-card h4 {
+.course-card h3 {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #0078d7; /* bleu principal */
+    color: #0078d7;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-/* Description */
 .course-card p {
     font-size: 14px;
     color: #555;
@@ -43,7 +51,7 @@
 }
 
 /* Bouton */
-.course-card button {
+.details-btn {
     align-self: flex-start;
     padding: 8px 14px;
     background: #0078d7;
@@ -55,41 +63,8 @@
     transition: background 0.3s ease;
 }
 
-.course-card button:hover {
+.details-btn:hover {
     background: #005fa3;
-}
-
-/* Table calendrier */
-.calendar-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.calendar-table th,
-.calendar-table td {
-    padding: 12px 15px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
-
-.calendar-table th {
-    background: #0078d7;
-    color: white;
-    font-weight: 600;
-}
-
-.calendar-table tr:hover {
-    background: #f4f8ff;
-}
-
-.calendar-table td {
-    font-size: 14px;
-    color: #333;
 }
 
 /* Responsive mobile */

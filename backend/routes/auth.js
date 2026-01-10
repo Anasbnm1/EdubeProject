@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const authMiddleware = require("../middleware/auth");
+const modules = require("../models/modules");
+
 // REGISTER Étudiant
 router.post("/register/student", async (req, res) => {
     try {
@@ -25,7 +27,11 @@ router.post("/register/student", async (req, res) => {
 
         await newStudent.save();
 
-        const token = jwt.sign({ id: newStudent._id, role: "student" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: newStudent._id, role: "student" },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
         res.status(201).json({ message: "Étudiant créé avec succès", token });
     } catch (err) {
         console.error("Erreur Register:", err);
@@ -52,7 +58,11 @@ router.post("/register/professor", async (req, res) => {
 
         await newProfessor.save();
 
-        const token = jwt.sign({ id: newProfessor._id, role: "professor" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: newProfessor._id, role: "professor" },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
         res.status(201).json({ message: "Professeur créé avec succès", token });
     } catch (err) {
         res.status(500).json({ message: "Erreur serveur", error: err.message });
@@ -70,7 +80,11 @@ router.post("/login", async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Mot de passe incorrect" });
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
         res.json({
             message: "Connexion réussie",
@@ -102,6 +116,83 @@ router.get("/me", authMiddleware, async (req, res) => {
         res.status(500).json({ message: "Erreur serveur", error: err.message });
     }
 });
+
+// Route pour récupérer uniquement les étudiants
+router.get("/students", async (req, res) => {
+    try {
+        const students = await User.find({ role: "student" }).select("-password");
+        res.json({ students });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+const Grade = require("../models/Grade");
+
+// Enregistrer les notes (professeur)
+router.post("/grades", authMiddleware, async (req, res) => {
+    try {
+        const { studentId, module, test1, intra, test2, finale } = req.body;
+
+        const grade = new Grade({
+            student: studentId,
+            professor: req.user.id,
+            module,
+            test1,
+            intra,
+            test2,
+            finale,
+        });
+
+        await grade.save();
+        res.status(201).json({ message: "Notes enregistrées avec succès", grade });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur serveur", details: err.message });
+    }
+});
+
+router.get("/modules", (req, res) => {
+    res.json({ modules });
+});
+
+
+// Récupérer les notes d’un module
+router.get("/grades/module/:module", authMiddleware, async (req, res) => {
+    try {
+        const grades = await Grade.find({ module: req.params.module })
+            .populate("student", "name email groupe");
+        res.json({ grades });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Mettre à jour une note
+router.put("/grades/:id", authMiddleware, async (req, res) => {
+    try {
+        const grade = await Grade.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        res.json({ grade });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+router.get("/grades/me", authMiddleware, async (req, res) => {
+    try {
+        const grades = await Grade.find({ student: req.user.id })
+            .populate("professor", "name email") // infos du prof
+            .populate("student", "name email filiere groupe"); // infos de l’étudiant avec filière
+
+        res.json({ grades });
+    } catch (err) {
+        res.status(500).json({ error: "Erreur serveur", details: err.message });
+    }
+});
+
 
 
 module.exports = router;
