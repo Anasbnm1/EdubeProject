@@ -83,45 +83,54 @@ function Grades() {
                     </tr>
                     </thead>
                     <tbody>
-                    {modules.map((module, i) => {
-                        const notes = groupedGrades[module.name] || [];
-                        if (notes.length === 0) {
-                            // Module sans note → afficher vide
+                        {modules.map((module, i) => {
+                            const notes = groupedGrades[module.name] || [];
+                            if (notes.length === 0) {
+                                // Module sans note → afficher vide
+                                return (
+                                    <tr key={i}>
+                                        <td>{module.name}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    </tr>
+                                );
+                            }
+                            // Afficher toutes les notes du module
                             return (
-                                <tr key={i}>
-                                    <td>{module.name}</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
+                                <>
+                                    {notes.map((n, j) => (
+                                        <tr key={`${i}-${j}`}>
+                                            <td>{module.name}</td>
+                                            <td>{n.test1 ?? "-"}</td>
+                                            <td>{n.intra ?? "-"}</td>
+                                            <td>{n.test2 ?? "-"}</td>
+                                            <td>{n.finale ?? "-"}</td>
+                                            <td>
+                                                {(n.test1 !== null &&
+                                                n.test1 !== undefined &&
+                                                n.intra !== null &&
+                                                n.intra !== undefined &&
+                                                n.test2 !== null &&
+                                                n.test2 !== undefined &&
+                                                n.finale !== null &&
+                                                n.finale !== undefined)
+                                                    ? (n.moyenne?.toFixed(2) ?? "-")
+                                                    : "-"}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </>
                             );
-                        }
-                        // Afficher toutes les notes du module
-                        return notes.map((n, j) => (
-                            <tr key={`${i}-${j}`}>
-                                <td>{module.name}</td>
-                                <td>{n.test1 ?? "-"}</td>
-                                <td>{n.intra ?? "-"}</td>
-                                <td>{n.test2 ?? "-"}</td>
-                                <td>{n.finale ?? "-"}</td>
-                                <td>
-                                    {(
-                                        (n.test1 + n.intra + n.test2 + n.finale) /
-                                        4
-                                    ).toFixed(2)}
-                                </td>
-                            </tr>
-                        ));
-                    })}
+                        })}
                     </tbody>
                 </table>
 
                 <div className="grades-summary">
                     <p>
-                        <strong>Moyenne générale :</strong>{" "}
-                        {generalAverage.toFixed(2)}
+                        <strong>Moyenne générale :</strong> {generalAverage.toFixed(2)}
                     </p>
                     <p>
                         <strong>Modules validés :</strong> {validatedModules}

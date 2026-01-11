@@ -39,23 +39,56 @@ function Navbar() {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         setSidebarOpen(false);
+        setRole(null);
+        navigate("/login");
+    };
+
+    const handleLogin = () => {
         navigate("/login");
     };
 
     return (
         <>
             <nav className="navbar">
+                {/* Gauche : bouton menu */}
                 <div className="navbar-left">
                     <button className="menu-btn" onClick={toggleSidebar}>☰</button>
-                    <div className="navbar-title">Edube</div>
                 </div>
 
-                <ul className="navbar-links">
-                    <li><Link to="/Actualité">Actualité</Link></li>
-                    <li><Link to="/Event">Evénement</Link></li>
-                </ul>
+                {/* Centre : logo */}
+                <div className="navbar-center">
+                    <div className="navbar-title">🎓 Edube</div>
+                </div>
 
-                <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                {/* Droite : login/logout/menu selon rôle */}
+                <div className="navbar-right">
+                    {!role ? (
+                        <button className="login-btn" onClick={handleLogin}>
+                            Se Connecter
+                        </button>
+                    ) : (
+                        <>
+                            {role === "student" && (
+                                <ul className="navbar-links">
+                                    <li><Link to="student/grades">Mes Notes</Link></li>
+                                    <li><Link to="/student/coursesstudent">Modules</Link></li>
+                                    <button className="logout-btn" onClick={handleLogout}>
+                                        Déconnexion
+                                    </button>
+                                </ul>
+                            )}
+                            {role === "professor" && (
+                                <ul className="navbar-links">
+                                    <li><Link to="/teacher/listteacher">Mes Étudiants</Link></li>
+                                    <li><Link to="/teacher/gradesteacher">Ajouter Notes</Link></li>
+                                    <button className="logout-btn" onClick={handleLogout}>
+                                        Déconnexion
+                                    </button>
+                                </ul>
+                            )}
+                        </>
+                    )}
+                </div>
             </nav>
 
             {/* Sidebar dynamique selon rôle */}
@@ -90,7 +123,7 @@ function Navbar() {
                         ×
                     </button>
                     <div style={{ opacity: 0.8 }}>
-                        Aucun rôle trouvé dans le token. Assure-toi que ton backend inclut `role` dans le JWT.
+                        Aucun utilisateur connecté
                     </div>
                 </div>
             )}

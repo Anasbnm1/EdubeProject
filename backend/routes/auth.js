@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const authMiddleware = require("../middleware/auth");
-const modules = require("../models/modules");
+const modules = require("../../src/config/modules");
 
 // REGISTER Étudiant
 router.post("/register/student", async (req, res) => {
@@ -136,26 +136,43 @@ router.post("/grades", authMiddleware, async (req, res) => {
         const grade = new Grade({
             student: studentId,
             professor: req.user.id,
-            module,
+            module : module.name,
             test1,
             intra,
             test2,
             finale,
+            moyenne
         });
 
         await grade.save();
-        res.status(201).json({ message: "Notes enregistrées avec succès", grade });
+
+        // Update the document using $avg operator with updatePipeline option
+        await Grade.updateOne(
+            { _id: grade._id },
+            [
+                {
+                    $set: {
+                        moyenne: { $avg: ["$test1", "$intra", "$test2", "$finale"] }
+                    }
+                }
+            ],
+            { updatePipeline: true }  // ADD THIS OPTION
+        );
+
+        // Fetch the updated grade with populated fields
+        const updatedGrade = await Grade.findById(grade._id)
+            .populate("student", "name email filiere groupe")
+            .populate("professor", "name email");
+
+        res.status(201).json({ message: "Notes enregistrées avec succès", grade: updatedGrade });
     } catch (err) {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
 });
 
-
 router.get("/modules", (req, res) => {
     res.json({ modules });
 });
-
-
 
 
 // Récupérer les notes d’un module
@@ -172,17 +189,36 @@ router.get("/grades/module/:module", authMiddleware, async (req, res) => {
 // Mettre à jour une note
 router.put("/grades/:id", authMiddleware, async (req, res) => {
     try {
-        const grade = await Grade.findByIdAndUpdate(
+        // First update the fields
+        await Grade.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
         );
+        // Then recalculate moyenne using $avg with updatePipeline option
+        const updateResult = await Grade.updateOne(
+            { _id: req.params.id },  // CHANGED: removed mongoose.Types.ObjectId()
+            [
+                {
+                    $set: {
+                        moyenne: { $avg: ["$test1", "$intra", "$test2", "$finale"] }
+                    }
+                }
+            ],
+            { updatePipeline: true }
+        );
+
+        // Fetch the updated grade
+        const grade = await Grade.findById(req.params.id)
+            .populate("student", "name email groupe")
+            .populate("professor", "name email");
+
         res.json({ grade });
     } catch (err) {
+        console.error("ERROR in PUT /grades/:id:", err);
         res.status(500).json({ error: err.message });
     }
 });
-
 
 router.get("/grades/me", authMiddleware, async (req, res) => {
     try {
@@ -196,6 +232,29 @@ router.get("/grades/me", authMiddleware, async (req, res) => {
     }
 });
 
+router.get("/grades/stats", authMiddleware, async (req, res) => {
+    try {
+        const stats = await Grade.aggregate([
+            {
+                $addFields: {
+                    average: { $avg: ["$test1", "$intra", "$test2", "$finale"] }
+                }
+            },
+            {
+                $group: {
+                    _id: "$module",
+                    avgNote: { $avg: "$average" },
+                    minNote: { $min: "$average" },
+                    maxNote: { $max: "$average" }
+                }
+            }
+        ]);
 
+        res.json({ stats });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erreur serveur", details: err.message });
+    }
+});
 
 module.exports = router;

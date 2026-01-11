@@ -19,6 +19,7 @@ export default function SideBarTeacher({ open, onClose }) {
                 <li><Link to="/teacher/dashboard" onClick={onClose}>🏠 <span>Dashboard</span></Link></li>
                 <li><Link to="/teacher/listteacher" onClick={onClose}>📚 <span>Liste Étudiants</span></Link></li>
                 <li><Link to="/teacher/gradesteacher" onClick={onClose}>📝 <span>Notes</span></Link></li>
+                <li><Link to="/teacher/stats" onClick={onClose}>📊 <span>Statistiques</span></Link></li>
                 <li><Link to="/teacher/planningteacher" onClick={onClose}>📅 <span>Emploi du temps</span></Link></li>
                 <li>
                     <button className="logout-link" onClick={handleLogout}>🚪 <span>Déconnexion</span></button>

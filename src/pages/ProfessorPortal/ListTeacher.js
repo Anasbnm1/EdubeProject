@@ -11,10 +11,9 @@ function ListTeacher() {
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        axios
-            .get("http://localhost:5000/api/auth/students", {
-                headers: { Authorization: `Bearer ${token}` },
-            })
+        axios.get("http://localhost:5000/api/auth/students", {
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((res) => {
                 console.log("Réponse API :", res.data);
                 setStudents(res.data.students || []);

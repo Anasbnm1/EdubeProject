@@ -8,6 +8,7 @@ const gradeSchema = new mongoose.Schema({
     intra: { type: Number, default: 0 },
     test2: { type: Number, default: 0 },
     finale: { type: Number, default: 0 },
+    moyenne: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("Grade", gradeSchema);

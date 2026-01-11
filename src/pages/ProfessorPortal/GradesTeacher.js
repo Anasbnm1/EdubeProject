@@ -36,8 +36,11 @@ function GradesTeacher() {
         if (!selectedModule) return;
         const token = localStorage.getItem("token");
 
+        // FIXED: Encode the module name to handle special characters like /
+        const encodedModule = encodeURIComponent(selectedModule);
+
         axios
-            .get(`http://localhost:5000/api/auth/grades/module/${selectedModule}`, {
+            .get(`http://localhost:5000/api/auth/grades/module/${encodedModule}`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
@@ -48,7 +51,8 @@ function GradesTeacher() {
                         intra: g.intra,
                         test2: g.test2,
                         finale: g.finale,
-                        _id: g._id, // garder l'id pour update
+                        moyenne: g.moyenne,
+                        _id: g._id,
                     };
                 });
                 setGrades(notesMap);
@@ -84,7 +88,17 @@ function GradesTeacher() {
                         },
                         { headers: { Authorization: `Bearer ${token}` } }
                     )
-                    .then((res) => console.log("Note mise à jour :", res.data))
+                    .then((res) => {
+                        console.log("Note mise à jour :", res.data);
+                        // Update moyenne in state after successful update
+                        setGrades((prev) => ({
+                            ...prev,
+                            [studentId]: {
+                                ...prev[studentId],
+                                moyenne: res.data.grade.moyenne,
+                            },
+                        }));
+                    })
                     .catch((err) => console.error(err));
             } else {
                 // Create
@@ -98,7 +112,18 @@ function GradesTeacher() {
                         },
                         { headers: { Authorization: `Bearer ${token}` } }
                     )
-                    .then((res) => console.log("Note créée :", res.data))
+                    .then((res) => {
+                        console.log("Note créée :", res.data);
+                        // Update moyenne and _id in state after successful creation
+                        setGrades((prev) => ({
+                            ...prev,
+                            [studentId]: {
+                                ...prev[studentId],
+                                moyenne: res.data.grade.moyenne,
+                                _id: res.data.grade._id,
+                            },
+                        }));
+                    })
                     .catch((err) => console.error(err));
             }
         });
@@ -106,13 +131,33 @@ function GradesTeacher() {
         alert("Notes du module " + selectedModule + " enregistrées !");
     };
 
+    // ✅ Helper function to check if all grades are filled
+    const hasAllGrades = (studentId) => {
+        const grade = grades[studentId];
+        if (!grade) return false;
+
+        // Check if all four grades exist and are not empty/null/undefined
+        return (
+            grade.test1 !== null &&
+            grade.test1 !== undefined &&
+            grade.test1 !== "" &&
+            grade.intra !== null &&
+            grade.intra !== undefined &&
+            grade.intra !== "" &&
+            grade.test2 !== null &&
+            grade.test2 !== undefined &&
+            grade.test2 !== "" &&
+            grade.finale !== null &&
+            grade.finale !== undefined &&
+            grade.finale !== ""
+        );
+    };
     // Filtrer les étudiants par filière et groupe
     const filteredStudents = students.filter((s) => {
-        const matchFiliere = s.filiere === selectedFiliere; // <-- filtrage par filière
+        const matchFiliere = s.filiere === selectedFiliere;
         const matchGroup = filterGroup === "Tous" || s.groupe === filterGroup;
         return matchFiliere && matchGroup;
     });
-
     return (
         <TeacherLayout>
             <div className="grades-teacher-container">
@@ -162,7 +207,6 @@ function GradesTeacher() {
                         <option value="G4">Groupe 4</option>
                     </select>
                 </div>
-
                 {/* Tableau des étudiants */}
                 <table className="grades-teacher-table">
                     <thead>
@@ -173,6 +217,7 @@ function GradesTeacher() {
                         <th>Intra</th>
                         <th>Test 2</th>
                         <th>Finale</th>
+                        <th>Moyenne</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -224,6 +269,16 @@ function GradesTeacher() {
                                     }
                                 />
                             </td>
+                            <td>
+                                {/* ✅ Only show moyenne if all grades are filled */}
+                                {hasAllGrades(student._id) ? (
+                                    <span className="moyenne-display">
+                                        {grades[student._id].moyenne}
+                                    </span>
+                                ) : (
+                                    <span className="moyenne-incomplete">-</span>
+                                )}
+                            </td>
                         </tr>
                     ))}
                     </tbody>
@@ -236,5 +291,4 @@ function GradesTeacher() {
         </TeacherLayout>
     );
 }
-
 export default GradesTeacher;
