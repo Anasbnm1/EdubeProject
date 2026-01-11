@@ -41,20 +41,25 @@ function Grades() {
     // Calcul moyenne d’un module
     const moduleAverage = (notes) => {
         if (!notes || notes.length === 0) return 0;
-        const total = notes.reduce(
-            (sum, n) => sum + (n.test1 + n.intra + n.test2 + n.finale) / 4,
-            0
-        );
+        const total = notes.reduce((sum, n) => {
+            const t1 = parseFloat(n.test1) || 0;
+            const intra = parseFloat(n.intra) || 0;
+            const t2 = parseFloat(n.test2) || 0;
+            const finale = parseFloat(n.finale) || 0;
+            return sum + (t1 + intra + t2 + finale) / 4;
+        }, 0);
         return total / notes.length;
     };
 
-    // Moyenne générale
+    // Moyenne générale (seulement modules avec notes)
     const generalAverage =
-        Object.values(groupedGrades).length > 0
-            ? Object.values(groupedGrades).reduce(
-            (sum, notes) => sum + moduleAverage(notes),
-            0
-        ) / Object.values(groupedGrades).length
+        Object.values(groupedGrades).filter(notes => notes.length > 0).length > 0
+            ? Object.values(groupedGrades)
+            .filter(notes => notes.length > 0)
+            .reduce(
+                (sum, notes) => sum + moduleAverage(notes),
+                0
+            ) / Object.values(groupedGrades).filter(notes => notes.length > 0).length
             : 0;
 
     // Modules validés (>= 10)
@@ -83,33 +88,33 @@ function Grades() {
                     </tr>
                     </thead>
                     <tbody>
-                        {modules.map((module, i) => {
-                            const notes = groupedGrades[module.name] || [];
-                            if (notes.length === 0) {
-                                // Module sans note → afficher vide
-                                return (
-                                    <tr key={i}>
-                                        <td>{module.name}</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-                                );
-                            }
-                            // Afficher toutes les notes du module
+                    {modules.map((module, i) => {
+                        const notes = groupedGrades[module.name] || [];
+                        if (notes.length === 0) {
+                            // Module sans note → afficher vide
                             return (
-                                <>
-                                    {notes.map((n, j) => (
-                                        <tr key={`${i}-${j}`}>
-                                            <td>{module.name}</td>
-                                            <td>{n.test1 ?? "-"}</td>
-                                            <td>{n.intra ?? "-"}</td>
-                                            <td>{n.test2 ?? "-"}</td>
-                                            <td>{n.finale ?? "-"}</td>
-                                            <td>
-                                                {(n.test1 !== null &&
+                                <tr key={i}>
+                                    <td>{module.name}</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            );
+                        }
+                        // Afficher toutes les notes du module
+                        return (
+                            <>
+                                {notes.map((n, j) => (
+                                    <tr key={`${i}-${j}`}>
+                                        <td>{module.name}</td>
+                                        <td>{n.test1 ?? "-"}</td>
+                                        <td>{n.intra ?? "-"}</td>
+                                        <td>{n.test2 ?? "-"}</td>
+                                        <td>{n.finale ?? "-"}</td>
+                                        <td>
+                                            {(n.test1 !== null &&
                                                 n.test1 !== undefined &&
                                                 n.intra !== null &&
                                                 n.intra !== undefined &&
@@ -117,14 +122,14 @@ function Grades() {
                                                 n.test2 !== undefined &&
                                                 n.finale !== null &&
                                                 n.finale !== undefined)
-                                                    ? (n.moyenne?.toFixed(2) ?? "-")
-                                                    : "-"}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </>
-                            );
-                        })}
+                                                ? (n.moyenne?.toFixed(2) ?? "-")
+                                                : "-"}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </>
+                        );
+                    })}
                     </tbody>
                 </table>
 

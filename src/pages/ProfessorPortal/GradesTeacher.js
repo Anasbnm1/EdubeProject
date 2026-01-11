@@ -81,10 +81,10 @@ function GradesTeacher() {
                     .put(
                         `http://localhost:5000/api/auth/grades/${grade._id}`,
                         {
-                            test1: grade.test1,
-                            intra: grade.intra,
-                            test2: grade.test2,
-                            finale: grade.finale,
+                            test1: parseFloat(grade.test1) || 0,
+                            intra: parseFloat(grade.intra) || 0,
+                            test2: parseFloat(grade.test2) || 0,
+                            finale: parseFloat(grade.finale) || 0,
                         },
                         { headers: { Authorization: `Bearer ${token}` } }
                     )
@@ -108,7 +108,10 @@ function GradesTeacher() {
                         {
                             studentId,
                             module: selectedModule,
-                            ...grade,
+                            test1: parseFloat(grade.test1) || 0,
+                            intra: parseFloat(grade.intra) || 0,
+                            test2: parseFloat(grade.test2) || 0,
+                            finale: parseFloat(grade.finale) || 0,
                         },
                         { headers: { Authorization: `Bearer ${token}` } }
                     )
