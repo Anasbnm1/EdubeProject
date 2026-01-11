@@ -7,8 +7,6 @@ const UserSchema = new mongoose.Schema({
     role: { type: String, enum: ["student", "professor"], required: true },
     filiere: { type: String },
     groupe: { type: String, enum: ["G1", "G2" , "G3", "G4"] },
-
-
 });
 
 module.exports = mongoose.model("User", UserSchema);

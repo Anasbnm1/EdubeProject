@@ -9,6 +9,7 @@ import NotesEtudiant from "./pages/StudentPortal/MarksStudent";
 import PlanningStudent from "./pages/StudentPortal/PlanningStudent";
 import CoursesStudent from "./pages/StudentPortal/CoursesStudent";
 import DashboardTeacher from "./pages/ProfessorPortal/DashboardTeacher";
+import StatsTeacher from "./pages/ProfessorPortal/StatsTeacher";
 import ListTeacher from "./pages/ProfessorPortal/ListTeacher";
 import GradesTeacher from "./pages/ProfessorPortal/GradesTeacher";
 
@@ -34,6 +35,7 @@ function App() {
 
             {/* Routes Teacher */}
             <Route path="/teacher/dashboard" element={<DashboardTeacher />} />
+            <Route path="/teacher/stats" element={<StatsTeacher />} />
             <Route path="/teacher/listteacher" element={<ListTeacher />} />
             <Route path="/teacher/planningteacher" element={<PlanningStudent />} />
             <Route path="/teacher/gradesteacher" element={<GradesTeacher />} />

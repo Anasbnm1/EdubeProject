@@ -1,7 +1,7 @@
 module.exports = [
-    "Base de donnée NoSQL",
-    "Programmation Mobile",
-    "Intelligence Artificielle",
-    "Réseaux & Télecom",
-    "Technologie Web",
+    "Architecture logicielle avancée",
+    "Intelligence Artificielle appliquée",
+    "Sécurité informatique",
+    "Big Data & Data Engineering",
+    "DevOps & CI/CD",
 ];
