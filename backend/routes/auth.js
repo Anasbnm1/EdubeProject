@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const authMiddleware = require("../middleware/auth");
+console.log(typeof authMiddleware);
 const modules = require("../models/modules");
 
 // REGISTER Étudiant
