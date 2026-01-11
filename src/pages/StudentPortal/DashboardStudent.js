@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StudentLayout from "./StudentLayout";
 import "../../styles/StudentPortal/DashboardStudent.css";
+import filieres from "../../config/modules"; // <-- import des modules par filière
 
 function DashboardStudent() {
     const [student, setStudent] = useState(null);
@@ -15,21 +16,26 @@ function DashboardStudent() {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
-                setStudent(res.data.user);
-                setCourses([
-                    { title: "Base de donnée NoSQL", description: "Base de donnée non relationnel", icon: "🗄️" },
-                    { title: "Programmation Mobile", description: "Programmation Mobile Flutter", icon: "📱" },
-                    { title: "Intelligence Artificielle", description: "Machine Learning et Deep Learning", icon: "🤖" },
-                ]);
+                const user = res.data.user;
+                setStudent(user);
 
-                // Exemple de calendrier universitaire
-                setCalendar([
-                    { day: "Lundi", course: "Base de donnée NoSQL", time: "08h00 - 10h00", room: "Salle P205" },
-                    { day: "Mardi", course: "Programmation Mobile", time: "10h00 - 12h00", room: "Salle P306" },
-                    { day: "Mercredi", course: "Intelligence Artificielle", time: "14h00 - 16h00", room: "Salle P206" },
-                    { day: "Jeudi", course: "Programmation Mobile", time: "08h00 - 10h00", room: "Salle P305" },
-                    { day: "Vendredi", course: "Base de donnée NoSQL", time: "10h00 - 12h00", room: "Salle P205" },
-                ]);
+                // ✅ Charger les modules de la filière de l'étudiant
+                const modulesFiliere = filieres[user.filiere] || [];
+                const formattedCourses = modulesFiliere.map((m) => ({
+                    title: m.name,
+                    description: m.description,
+                    icon: "📚", // tu peux changer l’icône par filière si tu veux
+                }));
+                setCourses(formattedCourses);
+
+                // ✅ Exemple de calendrier basé sur les modules de la filière
+                const formattedCalendar = modulesFiliere.slice(0, 5).map((m, i) => ({
+                    day: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"][i],
+                    course: m.name,
+                    time: "08h00 - 10h00",
+                    room: `Salle P20${i + 1}`,
+                }));
+                setCalendar(formattedCalendar);
             })
             .catch((err) => console.error(err));
     }, []);

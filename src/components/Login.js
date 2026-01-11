@@ -18,7 +18,11 @@ function Login() {
         password: passwordStudent,
         role: "student",
       });
+
+      // Sauvegarde du token et de l'utilisateur
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       window.location.href = "/student/dashboard";
     } catch (err) {
       setError("Email ou mot de passe incorrect (Étudiant)");
@@ -33,7 +37,11 @@ function Login() {
         password: passwordProfessor,
         role: "professor",
       });
+
+      // Sauvegarde du token et de l'utilisateur
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       window.location.href = "/professor/dashboard";
     } catch (err) {
       setError("Email ou mot de passe incorrect (Professeur)");
@@ -41,61 +49,61 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Connexion à Edube</h2>
-      <div className="login-cards">
-        {/* Card Étudiant */}
-        <div className="login-card">
-          <h3>Étudiant</h3>
-          <form onSubmit={handleStudentLogin} className="login-form">
-            <input
-              type="email"
-              placeholder="Email Étudiant"
-              value={emailStudent}
-              onChange={(e) => setEmailStudent(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Mot de passe"
-              value={passwordStudent}
-              onChange={(e) => setPasswordStudent(e.target.value)}
-              required
-            />
-            <p className="register-text">
-              Don’t have an account? <Link to="/registerstudent">Register</Link>
-            </p>
-            <button type="submit">Se connecter</button>
-          </form>
-        </div>
+      <div className="login-container">
+        <h2>Connexion à Edube</h2>
+        <div className="login-cards">
+          {/* Card Étudiant */}
+          <div className="login-card">
+            <h3>Étudiant</h3>
+            <form onSubmit={handleStudentLogin} className="login-form">
+              <input
+                  type="email"
+                  placeholder="Email Étudiant"
+                  value={emailStudent}
+                  onChange={(e) => setEmailStudent(e.target.value)}
+                  required
+              />
+              <input
+                  type="password"
+                  placeholder="Mot de passe"
+                  value={passwordStudent}
+                  onChange={(e) => setPasswordStudent(e.target.value)}
+                  required
+              />
+              <p className="register-text">
+                Don’t have an account? <Link to="/registerstudent">Register</Link>
+              </p>
+              <button type="submit">Se connecter</button>
+            </form>
+          </div>
 
-        {/* Card Professeur */}
-        <div className="login-card">
-          <h3>Professeur</h3>
-          <form onSubmit={handleProfessorLogin} className="login-form">
-            <input
-              type="email"
-              placeholder="Email Professeur"
-              value={emailProfessor}
-              onChange={(e) => setEmailProfessor(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Mot de passe"
-              value={passwordProfessor}
-              onChange={(e) => setPasswordProfessor(e.target.value)}
-              required
-            />
-            <p className="register-text">
-              Don’t have an account? <Link to="/registerprofessor">Register</Link>
-            </p>
-            <button type="submit">Se connecter</button>
-          </form>
+          {/* Card Professeur */}
+          <div className="login-card">
+            <h3>Professeur</h3>
+            <form onSubmit={handleProfessorLogin} className="login-form">
+              <input
+                  type="email"
+                  placeholder="Email Professeur"
+                  value={emailProfessor}
+                  onChange={(e) => setEmailProfessor(e.target.value)}
+                  required
+              />
+              <input
+                  type="password"
+                  placeholder="Mot de passe"
+                  value={passwordProfessor}
+                  onChange={(e) => setPasswordProfessor(e.target.value)}
+                  required
+              />
+              <p className="register-text">
+                Don’t have an account? <Link to="/registerprofessor">Register</Link>
+              </p>
+              <button type="submit">Se connecter</button>
+            </form>
+          </div>
         </div>
+        {error && <p className="error">{error}</p>}
       </div>
-      {error && <p className="error">{error}</p>}
-    </div>
   );
 }
 

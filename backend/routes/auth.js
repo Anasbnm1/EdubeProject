@@ -150,9 +150,12 @@ router.post("/grades", authMiddleware, async (req, res) => {
     }
 });
 
+
 router.get("/modules", (req, res) => {
     res.json({ modules });
 });
+
+
 
 
 // Récupérer les notes d’un module

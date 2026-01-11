@@ -11,6 +11,7 @@ import CoursesStudent from "./pages/StudentPortal/CoursesStudent";
 import DashboardTeacher from "./pages/ProfessorPortal/DashboardTeacher";
 import ListTeacher from "./pages/ProfessorPortal/ListTeacher";
 import GradesTeacher from "./pages/ProfessorPortal/GradesTeacher";
+import RegisterChoice from "./components/RegisterChoice";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/registerchoice" element={<RegisterChoice />} />
             <Route path="/registerstudent" element={<RegisterStudent />} />
             <Route path="/registerprofessor" element={<RegisterProfessor />} />
 

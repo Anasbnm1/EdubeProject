@@ -1,35 +1,59 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/StudentPortal/PlanningStudent.css";
 import StudentLayout from "./StudentLayout";
+import filieres from "../../config/modules"; // <-- import des modules par filière
 
 function EmploiDuTemps() {
     const [schedule, setSchedule] = useState([]);
+    const [student, setStudent] = useState(null);
+
+    // Fonction utilitaire pour générer un horaire aléatoire
+    const randomTime = () => {
+        const slots = [
+            "08h00 - 10h00",
+            "10h00 - 12h00",
+            "14h00 - 16h00",
+            "16h00 - 18h00"
+        ];
+        return slots[Math.floor(Math.random() * slots.length)];
+    };
 
     useEffect(() => {
-        // Exemple statique (plus tard tu pourras récupérer depuis ton backend)
-        setSchedule([
-            { day: "Lundi", course: "Base de donnée NoSQL", time: "08h00 - 10h00", room: "Salle P205" },
-            { day: "Lundi", course: "Mathématiques", time: "10h00 - 12h00", room: "Salle P201" },
-            { day: "Lundi", course: "Programmation Mobile", time: "14h00 - 16h00", room: "Salle P306" },
+        const userData = localStorage.getItem("user");
+        if (userData) {
+            const parsed = JSON.parse(userData);
+            setStudent(parsed);
 
-            { day: "Mardi", course: "Intelligence Artificielle", time: "08h00 - 10h00", room: "Salle P206" },
-            { day: "Mardi", course: "Réseaux", time: "10h00 - 12h00", room: "Salle P305" },
-            { day: "Mardi", course: "Analyse de données", time: "14h00 - 16h00", room: "Salle P307" },
+            // ✅ Charger les modules de la filière
+            const modulesFiliere = filieres[parsed.filiere] || [];
 
-            { day: "Mercredi", course: "Sécurité Informatique", time: "14h00 - 16h00", room: "Salle P309" },
+            // Générer un emploi du temps avec horaires aléatoires
+            const generatedSchedule = modulesFiliere.slice(0, 5).map((m, i) => ({
+                day: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"][i],
+                course: m.name,
+                time: randomTime(), // horaire aléatoire
+                room: `Salle P20${i + 1}`,
+            }));
 
-            { day: "Jeudi", course: "Base de donnée NoSQL", time: "08h00 - 10h00", room: "Salle P205" },
-            { day: "Jeudi", course: "Mathématiques", time: "10h00 - 12h00", room: "Salle P201" },
-            { day: "Jeudi", course: "Programmation Mobile", time: "14h00 - 16h00", room: "Salle P306" },
-
-            { day: "Vendredi", course: "Sécurité Informatique", time: "14h00 - 16h00", room: "Salle P309" },
-        ]);
+            setSchedule(generatedSchedule);
+        }
     }, []);
+
+    if (!student) {
+        return (
+            <StudentLayout>
+                <div className="emploi-container">
+                    <h2>📅 Emploi du temps</h2>
+                    <p>Chargement des informations...</p>
+                </div>
+            </StudentLayout>
+        );
+    }
 
     return (
         <StudentLayout>
             <div className="emploi-container">
-                <h2>📅 Emploi du temps</h2>
+                <h2>📅 Emploi du temps ({student.filiere})</h2>
                 <table className="emploi-table">
                     <thead>
                     <tr>

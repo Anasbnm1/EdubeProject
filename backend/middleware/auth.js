@@ -1,28 +1,21 @@
 const jwt = require("jsonwebtoken");
 
-async function login(req, res) {
-    const { email, password } = req.body;
-
-    // Vérifie l'utilisateur en base
-    const user = await User.findOne({ email });
-    if (!user) {
-        return res.status(400).json({ message: "Utilisateur introuvable" });
+function authMiddleware(req, res, next) {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader || typeof authHeader !== "string") {
+        return res.status(401).json({ message: "Token manquant" });
     }
 
-    // Vérifie le mot de passe (exemple simplifié)
-    const isValid = await user.comparePassword(password);
-    if (!isValid) {
-        return res.status(400).json({ message: "Mot de passe incorrect" });
+    const parts = authHeader.split(" ");
+    const token = parts.length === 2 ? parts[1] : parts[0];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        return next();
+    } catch (err) {
+        return res.status(401).json({ message: "Token invalide", error: err.message });
     }
-
-    // Payload avec id et role
-    const payload = {
-        id: user._id,
-        role: user.role, // "student" ou "professor"
-    };
-
-    // Génération du token
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-    res.json({ token });
 }
+
+module.exports = authMiddleware;

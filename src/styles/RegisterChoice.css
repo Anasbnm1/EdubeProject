@@ -1,0 +1,103 @@
+/* ===== GLOBAL ===== */
+.register-choice-container {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #0f172a, #1e293b); /* fond bleu sombre */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Segoe UI", sans-serif;
+    color: #e2e8f0;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Image de fond décorative */
+.register-choice-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1612831455549-5b79df1a5ebf?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    opacity: 0.15;
+    z-index: 0;
+}
+
+/* Header */
+.register-choice-container h2 {
+    font-size: 42px;
+    color: #38bdf8;
+    margin-bottom: 10px;
+    z-index: 1;
+}
+
+.register-choice-container p {
+    font-size: 18px;
+    color: #94a3b8;
+    margin-bottom: 40px;
+    z-index: 1;
+}
+
+/* Boutons */
+.register-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    z-index: 1;
+}
+
+.register-btn {
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Étudiant */
+.student-btn {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.student-btn:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+}
+
+/* Professeur */
+.professor-btn {
+    background-color: transparent;
+    color: #38bdf8;
+    border: 2px solid #38bdf8;
+}
+
+.professor-btn:hover {
+    background-color: #38bdf8;
+    color: #0f172a;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-choice-container h2 {
+        font-size: 32px;
+    }
+
+    .register-choice-container p {
+        font-size: 16px;
+    }
+
+    .register-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+}

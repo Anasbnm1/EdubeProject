@@ -6,10 +6,16 @@ import filieres from "../../config/modules"; // <-- import du config
 
 function Grades() {
     const [grades, setGrades] = useState([]);
-    const [studentFiliere, setStudentFiliere] = useState("Informatique"); // valeur par défaut
+    const [studentFiliere, setStudentFiliere] = useState(""); // pas de valeur par défaut
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        const userData = localStorage.getItem("user");
+
+        if (userData) {
+            const parsed = JSON.parse(userData);
+            setStudentFiliere(parsed.filiere); // ✅ filière directement depuis l'utilisateur connecté
+        }
 
         axios
             .get("http://localhost:5000/api/auth/grades/me", {
@@ -18,13 +24,6 @@ function Grades() {
             .then((res) => {
                 console.log("Notes récupérées :", res.data);
                 setGrades(res.data.grades || []);
-
-                if (res.data.grades?.length > 0) {
-                    const filiereApi = res.data.grades[0].student.filiere;
-                    console.log("Filière API :", filiereApi);
-                    console.log("Modules trouvés :", filieres[filiereApi]);
-                    setStudentFiliere(filiereApi);
-                }
             })
             .catch((err) => console.error(err));
     }, []);
@@ -100,32 +99,29 @@ function Grades() {
                             );
                         }
                         // Afficher toutes les notes du module
-                        return (
-                            <>
-                                {notes.map((n, j) => (
-                                    <tr key={`${i}-${j}`}>
-                                        <td>{module.name}</td>
-                                        <td>{n.test1 ?? "-"}</td>
-                                        <td>{n.intra ?? "-"}</td>
-                                        <td>{n.test2 ?? "-"}</td>
-                                        <td>{n.finale ?? "-"}</td>
-                                        <td>
-                                            {(
-                                                (n.test1 + n.intra + n.test2 + n.finale) /
-                                                4
-                                            ).toFixed(2)}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </>
-                        );
+                        return notes.map((n, j) => (
+                            <tr key={`${i}-${j}`}>
+                                <td>{module.name}</td>
+                                <td>{n.test1 ?? "-"}</td>
+                                <td>{n.intra ?? "-"}</td>
+                                <td>{n.test2 ?? "-"}</td>
+                                <td>{n.finale ?? "-"}</td>
+                                <td>
+                                    {(
+                                        (n.test1 + n.intra + n.test2 + n.finale) /
+                                        4
+                                    ).toFixed(2)}
+                                </td>
+                            </tr>
+                        ));
                     })}
                     </tbody>
                 </table>
 
                 <div className="grades-summary">
                     <p>
-                        <strong>Moyenne générale :</strong> {generalAverage.toFixed(2)}
+                        <strong>Moyenne générale :</strong>{" "}
+                        {generalAverage.toFixed(2)}
                     </p>
                     <p>
                         <strong>Modules validés :</strong> {validatedModules}

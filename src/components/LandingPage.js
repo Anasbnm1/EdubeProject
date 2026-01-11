@@ -19,7 +19,7 @@ function LandingPage() {
         <div className="card">
           <h2>Nouveau sur Edube ?</h2>
           <p>Créez un compte pour commencer votre parcours.</p>
-            <a href="/registerstudent" className="btn btn-secondary">S'inscrire</a>
+            <a href="/registerchoice" className="btn btn-secondary">S'inscrire</a>
         </div>
       </div>
     </div>

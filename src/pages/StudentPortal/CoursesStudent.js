@@ -1,26 +1,54 @@
 import React, { useEffect, useState } from "react";
 import StudentLayout from "./StudentLayout";
 import "../../styles/StudentPortal/CoursesStudent.css";
+import filieres from "../../config/modules"; // ton fichier modules.js
 
 function Courses() {
+    const [student, setStudent] = useState(null);
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
-        // Exemple statique (plus tard tu pourras récupérer depuis ton backend)
-        setCourses([
-            { title: "Base de donnée NoSQL", description: "Bases non relationnelles, MongoDB, Cassandra", icon: "🗄️" },
-            { title: "Programmation Mobile", description: "Développement Flutter et Android", icon: "📱" },
-            { title: "Intelligence Artificielle", description: "Machine Learning et Deep Learning", icon: "🤖" },
-            { title: "Réseaux", description: "Protocoles, TCP/IP, sécurité réseau", icon: "🌐" },
-            { title: "Mathématiques", description: "Algèbre linéaire et analyse", icon: "📐" },
-            { title: "Sécurité Informatique", description: "Cryptographie et cybersécurité", icon: "🔒" },
-        ]);
+        const userData = localStorage.getItem("user");
+        if (userData) {
+            const parsed = JSON.parse(userData);
+            setStudent(parsed);
+
+            const modulesFiliere = filieres[parsed.filiere] || [];
+            const formattedCourses = modulesFiliere.map(m => ({
+                title: m.name,
+                description: m.description,
+                icon: "📚"
+            }));
+            setCourses(formattedCourses);
+        } else {
+            // ⚡ Valeur par défaut pour tester
+            const fakeStudent = { filiere: "" };
+            setStudent(fakeStudent);
+
+            const modulesFiliere = filieres[fakeStudent.filiere] || [];
+            const formattedCourses = modulesFiliere.map(m => ({
+                title: m.name,
+                description: m.description,
+                icon: "📚"
+            }));
+            setCourses(formattedCourses);
+        }
     }, []);
+
+    if (!student) {
+        return (
+            <StudentLayout>
+                <div className="courses-container">
+                    <h2>Chargement des informations...</h2>
+                </div>
+            </StudentLayout>
+        );
+    }
 
     return (
         <StudentLayout>
             <div className="courses-container">
-                <h2>📚 Liste des cours</h2>
+                <h2>📚 Modules de la filière {student.filiere}</h2>
                 <div className="courses-grid">
                     {courses.map((course, i) => (
                         <div key={i} className="course-card">

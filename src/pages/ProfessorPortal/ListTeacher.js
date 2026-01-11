@@ -6,13 +6,15 @@ import TeacherLayout from "./TeacherLayout";
 function ListTeacher() {
     const [students, setStudents] = useState([]);
     const [filterGroup, setFilterGroup] = useState("Tous");
+    const [filterFiliere, setFilterFiliere] = useState("Tous");
 
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        axios.get("http://localhost:5000/api/auth/students", {
-            headers: { Authorization: `Bearer ${token}` },
-        })
+        axios
+            .get("http://localhost:5000/api/auth/students", {
+                headers: { Authorization: `Bearer ${token}` },
+            })
             .then((res) => {
                 console.log("Réponse API :", res.data);
                 setStudents(res.data.students || []);
@@ -20,10 +22,12 @@ function ListTeacher() {
             .catch((err) => console.error(err));
     }, []);
 
-    const filteredStudents =
-        filterGroup === "Tous"
-            ? students
-            : students.filter((s) => s.groupe === filterGroup);
+    // ✅ Appliquer les deux filtres
+    const filteredStudents = students.filter((s) => {
+        const matchGroup = filterGroup === "Tous" || s.groupe === filterGroup;
+        const matchFiliere = filterFiliere === "Tous" || s.filiere === filterFiliere;
+        return matchGroup && matchFiliere;
+    });
 
     return (
         <TeacherLayout>
@@ -41,6 +45,18 @@ function ListTeacher() {
                         <option value="G2">Groupe 2</option>
                         <option value="G3">Groupe 3</option>
                         <option value="G4">Groupe 4</option>
+                    </select>
+
+                    <label style={{ marginLeft: "20px" }}>Filtrer par filière :</label>
+                    <select
+                        value={filterFiliere}
+                        onChange={(e) => setFilterFiliere(e.target.value)}
+                    >
+                        <option value="Tous">Tous</option>
+                        <option value="Informatique">Informatique</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Electrique">Electrique</option>
+                        <option value="Mecanique">Mécanique</option>
                     </select>
                 </div>
 
@@ -61,7 +77,7 @@ function ListTeacher() {
                         filteredStudents.map((student, i) => (
                             <tr key={i}>
                                 <td>{student.name}</td>
-                                <td>{student.groupe}</td> {/* corrigé */}
+                                <td>{student.groupe}</td>
                                 <td>{student.filiere}</td>
                             </tr>
                         ))

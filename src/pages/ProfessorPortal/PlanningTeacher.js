@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/StudentPortal/PlanningStudent.css";
-import TeacherLayout from "./StudentLayout";
+import TeacherLayout from "./TeacherLayout";
 
 function EmploiDuTemps() {
     const [schedule, setSchedule] = useState([]);
