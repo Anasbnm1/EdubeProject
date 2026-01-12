@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TeacherLayout from "./TeacherLayout";
 import "../../styles/TeacherPortal/DashboardTeacher.css";
+import {Link} from "react-router-dom";
 
 function DashboardTeacher() {
     const [teacher, setTeacher] = useState(null);
@@ -41,22 +42,29 @@ function DashboardTeacher() {
             <div className="teacher-dashboard">
                 <h2>Bienvenue Professeur {teacher.name} 👋</h2>
 
-                {/* Modules enseignés */}
                 <h3>📚 Vos modules</h3>
                 <div className="modules-grid">
                     {modules.map((m, i) => (
                         <div key={i} className="module-card">
                             <h4>{m.icon} {m.title}</h4>
                             <p>Groupe : {m.group}</p>
+
                             <div className="actions">
-                                <button className="action-btn">👨‍🎓 Voir étudiants</button>
-                                <button className="action-btn">📝 Saisir notes</button>
-                                <button className="action-btn">📅 Emploi du temps</button>
+                                <Link to="/teacher/listteacher" className="action-btn">
+                                    🎓 Voir étudiants
+                                </Link>
+
+                                <Link to="/teacher/gradesteacher" className="action-btn">
+                                    📝 Saisir notes
+                                </Link>
+
+                                <Link to="/teacher/planningteacher" className="action-btn">
+                                    📅 Emploi du temps
+                                </Link>
                             </div>
                         </div>
                     ))}
                 </div>
-
                 {/* Calendrier */}
                 <h3>📅 Calendrier</h3>
                 <table className="calendar-table">

@@ -13,6 +13,7 @@ import StatsTeacher from "./pages/ProfessorPortal/StatsTeacher";
 import ListTeacher from "./pages/ProfessorPortal/ListTeacher";
 import GradesTeacher from "./pages/ProfessorPortal/GradesTeacher";
 import RegisterChoice from "./components/RegisterChoice";
+import PlanningTeacher from "./pages/ProfessorPortal/PlanningTeacher";
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
             <Route path="/teacher/dashboard" element={<DashboardTeacher />} />
             <Route path="/teacher/stats" element={<StatsTeacher />} />
             <Route path="/teacher/listteacher" element={<ListTeacher />} />
-            <Route path="/teacher/planningteacher" element={<PlanningStudent />} />
+            <Route path="/teacher/planningteacher" element={<PlanningTeacher />} />
             <Route path="/teacher/gradesteacher" element={<GradesTeacher />} />
 
             {/* Ancienne route professor (doublon) */}
